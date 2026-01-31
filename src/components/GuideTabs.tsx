@@ -5,6 +5,7 @@ import * as React from "react";
 import {
   streamingGuideServices,
   type GuideAsset,
+  type StreamingGuidePart,
   type StreamingGuideService,
   voteGuides,
   type VoteGuide,
@@ -309,7 +310,7 @@ function VoteTabs() {
 
 
 
-export function VoteTabsWithSidebar() {
+export function VoteTabsWithSidebar({ guides }: { guides?: VoteGuide[] } = {}) {
   // 프로그램별 로고 경로 매핑
   const logoMap: Record<string, string> = {
     musicbank: "/images/vote/뮤직뱅크/logo/뮤직뱅크_logo.png",
@@ -318,10 +319,10 @@ export function VoteTabsWithSidebar() {
     musiccore: "/images/vote/음악중심/logo/음악중심_logo.png",
     inkigayo: "/images/vote/인기가요/logo/인기가요_logo.png",
   };
-  const guides = voteGuides;
-  const defaultGuide = guides[0]?.id ?? "";
+  const data = guides ?? voteGuides;
+  const defaultGuide = data[0]?.id ?? "";
   const inkigayoVoteHref = "https://app.linc.fan/31TL/01KF9VV0VVE7GNAN51SAWHRTT6";
-  if (!guides.length) {
+  if (!data.length) {
     return (
       <EmptyState
         title="사전투표 가이드"
@@ -339,7 +340,7 @@ export function VoteTabsWithSidebar() {
                 aria-label="사전투표 프로그램"
                 className="flex flex-nowrap items-center gap-1 overflow-x-auto rounded-none border-0 bg-transparent p-0 pt-4 shadow-none md:flex-col md:items-stretch md:overflow-visible"
               >
-                {guides.map((guide) => (
+                {data.map((guide) => (
                   <TabsTrigger
                     key={guide.id}
                     value={guide.id}
@@ -365,7 +366,7 @@ export function VoteTabsWithSidebar() {
           </Card>
         </div>
         <div className="min-w-0 md:flex-1">
-          {guides.map((guide) => (
+          {data.map((guide) => (
             <TabsContent key={guide.id} value={guide.id} className="mt-0">
               <Assets
                 title={`사전투표 가이드 · ${guide.label}`}
@@ -386,22 +387,29 @@ export function VoteTabsWithSidebar() {
 }
 
 export function GuideTabs() {
-  // Move 뮤직비디오 to the end
-  const streamingTabs = streamingGuideServices.map((service) => ({
-    id: service.id,
-    label: service.label,
-    type: "streaming" as const,
-    service,
-  }));
-  // Find 뮤직비디오 and move to end
-  const mvIndex = streamingTabs.findIndex((t) => t.id === "mv");
-  let orderedStreamingTabs = streamingTabs;
-  if (mvIndex !== -1) {
-    const [mvTab] = orderedStreamingTabs.splice(mvIndex, 1);
-    orderedStreamingTabs = [...orderedStreamingTabs, mvTab];
-  }
-  const allTabs = orderedStreamingTabs;
-  const defaultTab = allTabs[0]?.id ?? "";
+  const partTabs = [
+    { id: "streaming", label: "스트리밍" },
+    { id: "download", label: "다운로드" },
+    { id: "signup", label: "아이디 생성" },
+    { id: "gift", label: "선물하기" },
+    { id: "mv", label: "뮤직비디오 다운로드" },
+  ] as const;
+
+  const services = streamingGuideServices;
+  const defaultTab = partTabs[0]?.id ?? "streaming";
+
+  const findPart = (service: StreamingGuideService, partId: StreamingGuidePart["id"]) =>
+    service.parts.find((part) => part.id === partId);
+
+  const hasAnyGuideForTab = (tabId: StreamingGuidePart["id"]) => {
+    if (tabId === "mv") {
+      return services.some((service) =>
+        service.id === "mv" ? service.parts.length > 0 : Boolean(findPart(service, "mv"))
+      );
+    }
+
+    return services.some((service) => service.id !== "mv" && Boolean(findPart(service, tabId)));
+  };
 
   return (
     <Tabs defaultValue={defaultTab}>
@@ -410,21 +418,94 @@ export function GuideTabs() {
           aria-label="가이드 탭"
           className="w-full flex-nowrap justify-start gap-6 overflow-x-auto rounded-none border-0 bg-transparent p-0 shadow-none"
         >
-          {allTabs.map((tab) => (
+          {partTabs.map((tab) => (
             <TabsTrigger key={tab.id} value={tab.id} variant="underline">
               <span className="inline-flex items-center gap-2 whitespace-nowrap">
-                {tab.type === "streaming" && resolveMusicServiceIdFromLabel(tab.label) ? (
-                  <MusicServiceIcon label={tab.label} size={16} className="h-4 w-4" />
-                ) : null}
                 <span>{tab.label}</span>
               </span>
             </TabsTrigger>
           ))}
         </TabsList>
       </div>
-      {allTabs.map((tab) => (
+
+      {partTabs.map((tab) => (
         <TabsContent key={tab.id} value={tab.id}>
-          <StreamingServiceTabs service={tab.service} />
+          <div className="mt-4 space-y-4">
+            {tab.id === "mv" ? (
+              <>
+                {services
+                  .filter((service) => service.id !== "mv")
+                  .map((service) => {
+                    const part = findPart(service, "mv");
+                    if (!part) return null;
+                    return (
+                      <Assets
+                        key={`${service.id}-mv`}
+                        title={`${service.label} · ${part.label}`}
+                        idKey={`guide-${service.id}-mv`}
+                        assets={part.assets}
+                        emptyLines={[
+                          `1) 파일을 public/images/guides/${service.id}/mv/ 아래에 넣기`,
+                          `2) src/data/guides.ts 에서 ${service.label} > ${part.label} assets에 경로 추가`,
+                          `파일명 규칙: ${service.id}_mv.png (또는 .jpg)`,
+                        ]}
+                      />
+                    );
+                  })}
+
+                {services
+                  .filter((service) => service.id === "mv")
+                  .map((service) => (
+                    <Card key="mv-service">
+                      <CardHeader>
+                        <CardTitle>{service.label}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {service.parts.map((part) => (
+                          <Assets
+                            key={`mv-${part.id}`}
+                            title={`${service.label} · ${part.label}`}
+                            idKey={`guide-mv-${part.id}`}
+                            assets={part.assets}
+                            emptyLines={[
+                              `1) 파일을 public/images/guides/뮤직비디오/${part.id === "pcver" ? "PC" : "모바일"}/ 아래에 넣기`,
+                              `2) src/data/guides.ts 에서 뮤직비디오 > ${part.label} assets에 경로 추가`,
+                            ]}
+                          />
+                        ))}
+                      </CardContent>
+                    </Card>
+                  ))}
+              </>
+            ) : (
+              services
+                .filter((service) => service.id !== "mv")
+                .map((service) => {
+                  const part = findPart(service, tab.id);
+                  if (!part) return null;
+                  return (
+                    <Assets
+                      key={`${service.id}-${part.id}`}
+                      title={`${service.label} · ${part.label}`}
+                      idKey={`guide-${service.id}-${part.id}`}
+                      assets={part.assets}
+                      emptyLines={[
+                        `1) 파일을 public/images/guides/${service.id}/${part.id === "signup" ? "idcreate" : part.id}/ 아래에 넣기`,
+                        `2) src/data/guides.ts 에서 ${service.label} > ${part.label} assets에 경로 추가`,
+                        `파일명 규칙: ${service.id}_${part.id === "signup" ? "idcreate" : part.id}.png (또는 .jpg)`,
+                      ]}
+                    />
+                  );
+                })
+            )}
+
+            {!hasAnyGuideForTab(tab.id) ? (
+              <EmptyState
+                title={`${tab.label} 가이드`}
+                lines={["아직 등록된 가이드가 없어요."]}
+              />
+            ) : null}
+          </div>
         </TabsContent>
       ))}
     </Tabs>

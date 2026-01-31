@@ -47,6 +47,7 @@ function IconMusic({ size = 18 }: { size?: number }) {
 const actionIcons: Record<string, React.ReactNode> = {
   "원클릭 스트리밍": <IconMusic />,
   "REVERXE 앨범구매": <ShoppingBag size={18} />,
+  "앨범 구매": <ShoppingBag size={18} />,
   "라디오 신청하기": <Radio size={18} />,
   "생방송 문자투표": <MessageSquare size={18} />,
   "가이드": <IconBookClosed />,

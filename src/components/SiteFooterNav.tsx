@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Megaphone } from "lucide-react";
+import { CalendarDays, Megaphone } from "lucide-react";
 
 type IconProps = {
   className?: string;
@@ -89,28 +89,8 @@ function IconBalloon({ className }: IconProps) {
   );
 }
 
-function IconBook({ className }: IconProps) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M4 19.5c0-1.9 1.6-3.5 3.5-3.5H20" />
-      <path d="M4 4.5C4 3.1 5.1 2 6.5 2H20v20H7.5C5.6 22 4 20.4 4 18.5v-14z" />
-      <path d="M8 6h8" />
-      <path d="M8 9h8" />
-    </svg>
-  );
-}
-
 const items = [
-  { label: "가이드", href: "/guide", Icon: IconBook },
+  { label: "스케줄", href: "/schedule", Icon: CalendarDays },
   { label: "스트리밍", href: "/streaming", Icon: IconMusic },
   { label: "홈", href: "/", Icon: IconHome },
   { label: "응원법", href: "/cheer", Icon: Megaphone },

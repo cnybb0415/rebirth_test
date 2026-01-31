@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import { SiteFooterNav } from "@/components/SiteFooterNav";
+import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: "원클릭 링크, 바로가기, 차트 현황을 한 화면에.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -63,6 +67,7 @@ export default function RootLayout({
               : "min-h-screen bg-transparent"
           }
         >
+          <SiteHeader />
           <div className="pb-24">{children}</div>
           <SiteFooterNav />
         </div>
