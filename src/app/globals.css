@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  /* Screenshot-like theme (light background + dark foreground) */
+  --background: #ffffff;
+  --foreground: #111827;
+  --surface: color-mix(in oklab, var(--background) 92%, #111827 8%);
+  /* Translucent surface layers for overlays on top of wallpaper */
+  --surface-80: color-mix(in oklab, var(--surface) 80%, transparent);
+  --surface-90: color-mix(in oklab, var(--surface) 92%, transparent);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* keep consistent high-contrast text regardless of OS theme */
+
+/* Prevent width shift between pages that do/do not scroll. */
+@supports (scrollbar-gutter: stable) {
+  html {
+    scrollbar-gutter: stable;
+  }
+}
+
+@supports not (scrollbar-gutter: stable) {
+  html {
+    overflow-y: scroll;
+  }
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "NanumBarunGothic", var(--font-sans), ui-sans-serif, system-ui,
+    -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
+    "Segoe UI Emoji";
+}
+
+html[data-scroll-locked="true"] body {
+  padding-right: var(--scrollbar-width, 0px);
+}
+
+html[data-scroll-locked="true"] .scroll-lock-pad {
+  padding-right: var(--scrollbar-width, 0px);
+}
+
+html[data-scroll-locked="true"] nav[aria-label="하단 메뉴"] {
+  pointer-events: none;
+}
+
+/* Nanum Barun Gothic family names are split by weight in the provided CSS */
+h1,
+h2,
+h3,
+strong,
+b {
+  font-family: "NanumBarunGothicBold", "NanumBarunGothic", var(--font-sans),
+    ui-sans-serif, system-ui;
+}
