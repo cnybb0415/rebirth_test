@@ -190,7 +190,7 @@ export default async function Home() {
                 gridClassName="grid-cols-2 gap-3"
                 buttonVariant="outline"
                 buttonSize="lg"
-                buttonClassName="h-12 rounded-2xl"
+                buttonClassName="h-12 rounded-2xl text-xs leading-tight sm:text-sm"
               />
             </div>
 
