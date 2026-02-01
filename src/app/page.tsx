@@ -96,7 +96,7 @@ export default async function Home() {
   const homeActions = [
     { label: "KWANGYA 119 신고하기", href: "/kwangya119" },
     ...siteConfig.actions.filter(
-      (action) => action.label !== "REVERXE 앨범구매" && action.label !== "앨범 구매",
+      (action) => action.label !== "REVERXE 앨범구매",
     ),
   ];
 
