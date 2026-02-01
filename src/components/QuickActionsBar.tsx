@@ -47,7 +47,7 @@ function IconMusic({ size = 18 }: { size?: number }) {
 const actionIcons: Record<string, React.ReactNode> = {
   "원클릭 스트리밍": <IconMusic />,
   "KWANGYA 119 신고하기": (
-    <img src="/images/icon/siren.png" alt="" className="h-4 w-4" />
+    <img src="/images/icon/siren.png" alt="" className="relative top-[-1.5px] h-4 w-4" />
   ),
   "REVERXE 앨범구매": <ShoppingBag size={18} />,
   "앨범 구매": <ShoppingBag size={18} />,
