@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function ConcertPage() {
   return (
@@ -10,22 +11,30 @@ export default function ConcertPage() {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <Link href="/cheer" className="block">
-            <div className="flex items-center justify-between rounded-2xl border border-foreground/10 bg-white p-5 shadow-sm transition hover:shadow-md">
-              <div className="text-lg font-semibold">응원법</div>
-              <span className="text-foreground/60 text-2xl" aria-hidden>
-                ›
-              </span>
-            </div>
+            <Card className="transition hover:shadow-md">
+              <CardContent className="flex items-center justify-between gap-3 p-4">
+                <div className="text-sm font-semibold">응원법</div>
+                <span className="text-foreground/60" aria-hidden>
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </CardContent>
+            </Card>
           </Link>
           <Link href="/notice" className="block">
-            <div className="flex items-center justify-between rounded-2xl border border-foreground/10 bg-white p-5 shadow-sm transition hover:shadow-md">
-              <div className="text-lg font-semibold">공지사항</div>
-              <span className="text-foreground/60 text-2xl" aria-hidden>
-                ›
-              </span>
-            </div>
+            <Card className="transition hover:shadow-md">
+              <CardContent className="flex items-center justify-between gap-3 p-4">
+                <div className="text-sm font-semibold">공지사항</div>
+                <span className="text-foreground/60" aria-hidden>
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </CardContent>
+            </Card>
           </Link>
         </div>
       </main>
