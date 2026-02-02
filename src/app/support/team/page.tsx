@@ -39,6 +39,8 @@ const sections = [
   },
 ] as const;
 
+type SectionId = (typeof sections)[number]["id"];
+
 function XIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -59,7 +61,7 @@ function XIcon({ className }: { className?: string }) {
 }
 
 export default function SupportTeamPage() {
-  const [activeId, setActiveId] = useState(sections[0].id);
+  const [activeId, setActiveId] = useState<SectionId>(sections[0].id);
   const activeSection = sections.find((section) => section.id === activeId) ?? sections[0];
 
   return (
