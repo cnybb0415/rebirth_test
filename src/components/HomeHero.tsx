@@ -23,8 +23,6 @@ export function HomeHero() {
 
       if (currentY <= 10) {
         setHidden(false);
-      } else if (delta > 4) {
-        setHidden(true);
       } else if (delta < -4) {
         setHidden(false);
       }
@@ -38,12 +36,17 @@ export function HomeHero() {
 
   useEffect(() => {
     const target = () => document.getElementById("home-latest");
+    const wheelCount = { current: 0 };
+    const hideCount = { current: 0 };
+    let resetTimer: number | null = null;
     const trySnap = () => {
       if (isSnapping.current) return;
       if (window.scrollY > 120) return;
       const el = target();
       if (!el) return;
       isSnapping.current = true;
+      wheelCount.current = 0;
+      hideCount.current = 0;
       el.scrollIntoView({ behavior: "smooth", block: "start" });
       window.setTimeout(() => {
         isSnapping.current = false;
@@ -51,12 +54,31 @@ export function HomeHero() {
     };
 
     const onWheel = (e: WheelEvent) => {
-      if (e.deltaY > 0) trySnap();
+      if (e.deltaY <= 0) return;
+      if (window.scrollY <= 10) {
+        hideCount.current = 0;
+      }
+      if (window.scrollY > 10) {
+        hideCount.current += 1;
+        if (hideCount.current >= 2) {
+          setHidden(true);
+        }
+      }
+
+      if (window.scrollY > 120) return;
+      wheelCount.current += 1;
+      if (resetTimer) window.clearTimeout(resetTimer);
+      resetTimer = window.setTimeout(() => {
+        wheelCount.current = 0;
+        hideCount.current = 0;
+      }, 800);
+      if (wheelCount.current >= 2) trySnap();
     };
 
     window.addEventListener("wheel", onWheel, { passive: true });
     return () => {
       window.removeEventListener("wheel", onWheel);
+      if (resetTimer) window.clearTimeout(resetTimer);
     };
   }, []);
 
@@ -81,8 +103,8 @@ export function HomeHero() {
     <div className="relative w-full">
       <div
         className={
-          "sticky top-14 w-full transition-transform duration-300 ease-out " +
-          (hidden ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100")
+          "sticky top-14 w-full overflow-hidden transition-[max-height,opacity] duration-300 ease-out " +
+          (hidden ? "max-h-0 opacity-0" : "max-h-[1000px] opacity-100")
         }
       >
         <div className="group relative w-full overflow-hidden">
