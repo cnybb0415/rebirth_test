@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import logoPng from "@/../public/images/exo_logo.png";
 import { guideCategories } from "@/lib/guideCategories";
 import { streamingCategories } from "@/lib/streamingCategories";
@@ -16,6 +17,11 @@ export function SiteHeader() {
   const [openPrevote, setOpenPrevote] = useState(false);
   const [openConcert, setOpenConcert] = useState(false);
   const [openSupport, setOpenSupport] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setOpenMenu(false);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-foreground/10 bg-slate-100">
