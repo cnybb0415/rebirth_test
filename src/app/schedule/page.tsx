@@ -433,7 +433,11 @@ export default function SchedulePage() {
                       const dateKey = day ? toDateKey(year, monthItem.month, day) : null;
                       const dayEvents = dateKey ? eventByDate[dateKey] ?? [] : [];
                       const hasEvent = dayEvents.length > 0;
-                      const sortedEvents = [...dayEvents].sort((a, b) => compareTimes(a.time, b.time));
+                      const sortedEvents = [...dayEvents].sort((a, b) => {
+                        const priorityDiff = getCategoryPriority(a.category) - getCategoryPriority(b.category);
+                        if (priorityDiff !== 0) return priorityDiff;
+                        return compareTimes(a.time, b.time);
+                      });
                       const displayEvents = sortedEvents.slice(0, 2);
                       const dayCategories = Array.from(
                         new Set(dayEvents.map((eventItem) => eventItem.category))
