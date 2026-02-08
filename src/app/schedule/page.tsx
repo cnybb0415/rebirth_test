@@ -294,6 +294,23 @@ function CategoryIcon({ category }: { category: ScheduleCategory }) {
   return <Ticket className="h-4 w-4 text-foreground/70" />;
 }
 
+function getCategoryPriority(category: ScheduleCategory): number {
+  switch (category) {
+    case "기념일":
+      return 1;
+    case "공연":
+      return 2;
+    case "앨범":
+      return 3;
+    case "티켓팅":
+      return 4;
+    case "영상":
+      return 5;
+    default:
+      return 99;
+  }
+}
+
 function getCategoryBadgeClass(category: ScheduleCategory): string {
   switch (category) {
     case "공연":
@@ -421,6 +438,9 @@ export default function SchedulePage() {
                       const dayCategories = Array.from(
                         new Set(dayEvents.map((eventItem) => eventItem.category))
                       ).slice(0, 3);
+                      const primaryCategory = [...dayCategories].sort(
+                        (a, b) => getCategoryPriority(a) - getCategoryPriority(b)
+                      )[0];
                       const isSelected = dateKey && selectedDate === dateKey;
                       return (
                         <button
@@ -446,29 +466,27 @@ export default function SchedulePage() {
                             {day ?? ""}
                           </span>
                           {hasEvent && day ? (
-                            <>
-                              <span className="absolute right-0.5 top-0.5 hidden items-center gap-0.5 sm:flex sm:right-1 sm:top-1">
+                            <span className="absolute right-1 top-1 flex items-center gap-0.5 sm:right-1 sm:top-1">
+                              {primaryCategory ? (
+                                <span className="h-3 w-3 sm:hidden">
+                                  <CategoryIcon category={primaryCategory} />
+                                </span>
+                              ) : null}
+                              <span className="hidden items-center gap-0.5 sm:flex">
                                 {dayCategories.map((category) => (
                                   <span key={`${dateKey}-${category}`} className="h-3 w-3 sm:h-4 sm:w-4">
                                     <CategoryIcon category={category} />
                                   </span>
                                 ))}
                               </span>
-                              <span className="mt-0.5 flex w-full items-center gap-0.5 sm:hidden">
-                                {dayCategories.map((category) => (
-                                  <span key={`${dateKey}-${category}`} className="h-3 w-3">
-                                    <CategoryIcon category={category} />
-                                  </span>
-                                ))}
-                              </span>
-                            </>
+                            </span>
                           ) : null}
                           {hasEvent ? (
                             <span className="mt-1 flex w-full flex-col items-start gap-0.5">
                               <span className="w-full sm:hidden">
                                 <span
                                   className={
-                                    "w-full truncate rounded px-1 py-0.5 text-left text-[10px] font-medium leading-tight " +
+                                    "w-full truncate rounded px-1 py-0.5 text-left text-[9px] font-medium leading-tight " +
                                     getCategoryBadgeClass(displayEvents[0].category)
                                   }
                                   title={displayEvents[0].title}
@@ -476,7 +494,7 @@ export default function SchedulePage() {
                                   {displayEvents[0].title}
                                 </span>
                                 {dayEvents.length > 1 ? (
-                                  <span className="mt-0.5 block text-[10px] text-foreground/50">+{dayEvents.length - 1}</span>
+                                  <span className="mt-0.5 block text-[9px] text-foreground/50">+{dayEvents.length - 1}</span>
                                 ) : null}
                               </span>
                               <span className="hidden w-full flex-col items-start gap-0.5 sm:flex">
