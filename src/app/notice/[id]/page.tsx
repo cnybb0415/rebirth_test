@@ -25,11 +25,25 @@ export default async function NoticeDetailPage({
         </div>
 
         <section className="mt-6 rounded-2xl border border-foreground/10 bg-white p-6 shadow-sm">
-          <ul className="space-y-2 text-sm text-foreground/80">
-            {item.content.map((line, idx) => (
-              <li key={`${item.id}-line-${idx}`}>{line}</li>
-            ))}
-          </ul>
+          <div className="space-y-3 text-sm text-foreground/80">
+            {item.content.map((line, idx) => {
+              if (typeof line === "string") {
+                return line.trim().length === 0 ? (
+                  <div key={`${item.id}-spacer-${idx}`} className="h-3" aria-hidden />
+                ) : (
+                  <p key={`${item.id}-line-${idx}`}>{line}</p>
+                );
+              }
+
+              return line.text.trim().length === 0 ? (
+                <div key={`${item.id}-spacer-${idx}`} className="h-3" aria-hidden />
+              ) : (
+                <p key={`${item.id}-line-${idx}`} className={line.emphasis ? "font-semibold" : undefined}>
+                  {line.text}
+                </p>
+              );
+            })}
+          </div>
           {item.images && item.images.length > 0 ? (
             <div className="mt-6 grid gap-4">
               {item.images.map((image, idx) => (
@@ -44,26 +58,43 @@ export default async function NoticeDetailPage({
               ))}
             </div>
           ) : null}
+          {item.actions && item.actions.length > 0 ? (
+            <div className="mt-6 flex flex-wrap gap-2">
+              {item.actions.map((action, idx) => (
+                <a
+                  key={`${item.id}-action-${idx}`}
+                  href={action.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/90"
+                >
+                  {action.label}
+                </a>
+              ))}
+            </div>
+          ) : null}
         </section>
 
-        <div className="mt-6 flex justify-end">
-          <a
-            href="https://m.ticket.melon.com/public/index.html#performance.index?prodId=212768"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/90 sm:hidden"
-          >
-            멜론티켓 바로가기
-          </a>
-          <a
-            href="https://ticket.melon.com/performance/index.htm?prodId=212768"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden items-center justify-center rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/90 sm:inline-flex"
-          >
-            멜론티켓 바로가기
-          </a>
-        </div>
+        {item.ticketLinks ? (
+          <div className="mt-6 flex justify-end">
+            <a
+              href={item.ticketLinks.mobile}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/90 sm:hidden"
+            >
+              멜론티켓 바로가기
+            </a>
+            <a
+              href={item.ticketLinks.desktop}
+              target="_blank"
+              rel="noreferrer"
+              className="hidden items-center justify-center rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/90 sm:inline-flex"
+            >
+              멜론티켓 바로가기
+            </a>
+          </div>
+        ) : null}
 
         <AnnouncementDetailActions />
       </main>

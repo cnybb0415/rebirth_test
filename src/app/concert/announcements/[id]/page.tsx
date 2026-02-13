@@ -24,11 +24,40 @@ export default async function AnnouncementDetailPage({
           </div>
         </div>
         <section className="mt-6 rounded-2xl border border-foreground/10 bg-white p-6 shadow-sm">
-          <ul className="list-disc space-y-2 pl-5 text-sm text-foreground/80">
-            {item.content.map((line, idx) => (
-              <li key={`${item.id}-line-${idx}`}>{line}</li>
-            ))}
-          </ul>
+          <div className="space-y-3 text-sm text-foreground/80">
+            {item.content.map((line, idx) => {
+              if (typeof line === "string") {
+                return line.trim().length === 0 ? (
+                  <div key={`${item.id}-spacer-${idx}`} className="h-3" aria-hidden />
+                ) : (
+                  <p key={`${item.id}-line-${idx}`}>{line}</p>
+                );
+              }
+
+              return line.text.trim().length === 0 ? (
+                <div key={`${item.id}-spacer-${idx}`} className="h-3" aria-hidden />
+              ) : (
+                <p key={`${item.id}-line-${idx}`} className={line.emphasis ? "font-semibold" : undefined}>
+                  {line.text}
+                </p>
+              );
+            })}
+          </div>
+          {item.actions && item.actions.length > 0 ? (
+            <div className="mt-6 flex flex-wrap gap-2">
+              {item.actions.map((action, idx) => (
+                <a
+                  key={`${item.id}-action-${idx}`}
+                  href={action.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/90"
+                >
+                  {action.label}
+                </a>
+              ))}
+            </div>
+          ) : null}
         </section>
 
         <AnnouncementDetailActions />
