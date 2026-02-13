@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -37,8 +38,27 @@ const RANK_ITEMS: RankItem[] = [
 ];
 
 export default function VoteChartPage() {
+  const router = useRouter();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [selectedRank, setSelectedRank] = useState<1 | 2 | 3>(1);
+  const [isAllowed, setIsAllowed] = useState(false);
+
+  useEffect(() => {
+    const cached = sessionStorage.getItem("voteChartAccess");
+    if (cached === "1001") {
+      setIsAllowed(true);
+      return;
+    }
+
+    const input = window.prompt("비밀번호를 입력하세요");
+    if (input === "1001") {
+      sessionStorage.setItem("voteChartAccess", "1001");
+      setIsAllowed(true);
+      return;
+    }
+
+    router.replace("/");
+  }, [router]);
 
   const selected = useMemo(
     () => RANK_ITEMS.find((item) => item.rank === selectedRank) ?? RANK_ITEMS[0],
@@ -49,6 +69,16 @@ export default function VoteChartPage() {
     setSelectedRank(rank);
     setStep(3);
   };
+
+  if (!isAllowed) {
+    return (
+      <div className="min-h-screen bg-transparent text-foreground">
+        <main className="mx-auto flex min-h-[60vh] w-full max-w-5xl items-center justify-center px-4 py-10 sm:px-6 sm:py-14">
+          <div className="text-sm text-foreground/60">접근 확인 중...</div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-transparent text-foreground">
