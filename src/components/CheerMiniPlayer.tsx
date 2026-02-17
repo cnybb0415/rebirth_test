@@ -1,0 +1,61 @@
+"use client";
+
+import { useState } from "react";
+
+type CheerMiniPlayerProps = {
+  songLabel: string;
+  embedUrl: string;
+};
+
+export function CheerMiniPlayer({ songLabel, embedUrl }: CheerMiniPlayerProps) {
+  const [minimized, setMinimized] = useState(false);
+
+  return (
+    <>
+      {minimized ? (
+        <div className="fixed bottom-24 left-4 z-50 flex h-10 w-[190px] items-center justify-between rounded-xl border border-foreground/15 bg-white px-3 shadow-xl sm:w-[220px]">
+          <div className="truncate text-xs font-semibold text-foreground/80">{songLabel}</div>
+          <button
+            type="button"
+            onClick={() => setMinimized(false)}
+            className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-md border border-foreground/15 text-sm text-foreground/80 hover:bg-foreground/5"
+            aria-label="플레이어 펼치기"
+          >
+            +
+          </button>
+        </div>
+      ) : null}
+
+      <div
+        className={`fixed bottom-24 left-4 z-50 overflow-hidden rounded-2xl border border-foreground/15 bg-white shadow-xl ${
+          minimized
+            ? "pointer-events-none h-px w-px opacity-0"
+            : "w-[200px] sm:w-[230px]"
+        }`}
+      >
+        <div className="flex items-center justify-between px-3 py-2">
+          <div className="truncate text-xs font-semibold text-foreground/80">{songLabel}</div>
+          <button
+            type="button"
+            onClick={() => setMinimized(true)}
+            className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-md border border-foreground/15 text-sm text-foreground/80 hover:bg-foreground/5"
+            aria-label="플레이어 최소화"
+          >
+            -
+          </button>
+        </div>
+        <div className="relative aspect-video w-full">
+          <iframe
+            className="absolute inset-0 h-full w-full"
+            src={embedUrl}
+            title={`${songLabel} YouTube player`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        </div>
+      </div>
+    </>
+  );
+}

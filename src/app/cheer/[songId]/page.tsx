@@ -2,10 +2,31 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { CheerMiniPlayer } from "@/components/CheerMiniPlayer";
 import { getCheeringSongById } from "@/lib/cheering";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+function toYouTubeEmbedUrl(input: string): string {
+  try {
+    const url = new URL(input);
+
+    if (url.hostname.includes("youtu.be")) {
+      const id = url.pathname.replace(/^\//, "").split("/")[0];
+      if (id) return `https://www.youtube.com/embed/${id}`;
+    }
+
+    if (url.hostname.includes("youtube.com")) {
+      const id = url.searchParams.get("v");
+      if (id) return `https://www.youtube.com/embed/${id}`;
+    }
+  } catch {
+    return input;
+  }
+
+  return input;
+}
 
 export default async function CheerDetailPage({
   params,
@@ -17,6 +38,7 @@ export default async function CheerDetailPage({
   if (!song) notFound();
 
   const hasAssets = song.guideAssets.length > 0;
+  const embedUrl = song.youtubeUrl ? toYouTubeEmbedUrl(song.youtubeUrl) : null;
 
   return (
     <div className="min-h-screen bg-transparent text-foreground">
@@ -57,6 +79,10 @@ export default async function CheerDetailPage({
             </CardContent>
           </Card>
         </div>
+
+        {embedUrl ? (
+          <CheerMiniPlayer songLabel={song.label} embedUrl={embedUrl} />
+        ) : null}
       </main>
     </div>
   );

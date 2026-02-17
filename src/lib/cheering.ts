@@ -67,8 +67,31 @@ export type CheeringSong = {
   label: string;
   order: number | null;
   coverSrc: string | null;
+  youtubeUrl: string | null;
   hasGuide: boolean;
   guideAssets: CheeringSongAsset[];
+};
+
+const YOUTUBE_BY_SLUG: Record<string, string> = {
+  mama: "https://music.youtube.com/watch?v=uVAdqc1oX7g&si=JbbedrwA0zlRwzF9",
+  wolf: "https://music.youtube.com/watch?v=nViHrml-LtU&si=_oQDihgFUChJOreh",
+  growl: "https://music.youtube.com/watch?v=qWvVSBUfLfE&si=y4IP2T3oENJAh7iZ",
+  overdose: "https://music.youtube.com/watch?v=NWqC0vSVbX4&si=ezsVBOYhEwvIrx1a",
+  "call-me-baby": "https://music.youtube.com/watch?v=Wu8halh9DXs&si=gCEvvOiwEEC52G8H",
+  "love-me-right": "https://music.youtube.com/watch?v=r4ZPGfwqmI0&si=7fTHstH7g0YM6oEo",
+  unfair: "https://music.youtube.com/watch?v=nyhA7ZStGRQ&si=vh1CXb1MfOrcJn3r",
+  monster: "https://music.youtube.com/watch?v=KJevaDSz7Nc&si=fdr8JO2Sbdug99iC",
+  "lucky-one": "https://music.youtube.com/watch?v=jUkvoXONF3k&si=S_Kqc5EODzchF_Cy",
+  lotto: "https://music.youtube.com/watch?v=90USL2nsoDU&si=-bh2OLtQ2IhZPlej",
+  "the-eve": "https://music.youtube.com/watch?v=gK8YC0nxNe0&si=yTQxkRm5lIh_o9TB",
+  "ko-ko-bop": "https://music.youtube.com/watch?v=J9HqEvgm3CA&si=FgQuV2ehIaqM0XFc",
+  power: "https://music.youtube.com/watch?v=K4v7sAgwJCU&si=Vasbq7Q9KkM3sraH",
+  tempo: "https://music.youtube.com/watch?v=zJZjiaVPDiM&si=_OYO7rqa-ddOkHkV",
+  "ooh-la-la-la": "https://music.youtube.com/watch?v=8l4OGw3bEto&si=kaPcWqhJ-i8TaodL",
+  "love-shot": "https://music.youtube.com/watch?v=KmRqHwJrTKQ&si=hTqKq2Du9rE7VXpr",
+  obsession: "https://music.youtube.com/watch?v=TadhhUt9BPc&si=X1Umr1McJ2sOmU_h",
+  "cream-soda": "https://music.youtube.com/watch?v=mA-2ZBpAbeo&si=Xv7kko9m_JKIYA21",
+  crown: "https://music.youtube.com/watch?v=mbiN9853aic&si=aaiWI0lhog30FhM3",
 };
 
 async function listFilesIfExists(dirPath: string): Promise<string[]> {
@@ -124,6 +147,7 @@ export async function getCheeringSongs(): Promise<CheeringSong[]> {
         label,
         order,
         coverSrc,
+        youtubeUrl: YOUTUBE_BY_SLUG[slug] ?? null,
         hasGuide: guideAssets.length > 0,
         guideAssets,
       } satisfies CheeringSong;
