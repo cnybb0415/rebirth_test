@@ -9,11 +9,12 @@ type CheerMiniPlayerProps = {
 
 export function CheerMiniPlayer({ songLabel, embedUrl }: CheerMiniPlayerProps) {
   const [minimized, setMinimized] = useState(false);
+  const playerPositionClass = "bottom-[calc(env(safe-area-inset-bottom)+7rem)] sm:bottom-24";
 
   return (
     <>
       {minimized ? (
-        <div className="fixed bottom-24 left-4 z-[60] flex h-10 w-[190px] items-center justify-between rounded-xl border border-foreground/15 bg-white px-3 shadow-xl sm:w-[220px]">
+        <div className={`fixed ${playerPositionClass} left-4 z-[60] flex h-10 w-[190px] items-center justify-between rounded-xl border border-foreground/15 bg-white px-3 shadow-xl sm:w-[220px]`}>
           <div className="truncate text-xs font-semibold text-foreground/80">{songLabel}</div>
           <button
             type="button"
@@ -27,7 +28,7 @@ export function CheerMiniPlayer({ songLabel, embedUrl }: CheerMiniPlayerProps) {
       ) : null}
 
       <div
-        className={`fixed bottom-24 left-4 z-[60] w-[200px] overflow-hidden rounded-2xl border border-foreground/15 bg-white shadow-xl transition-opacity sm:w-[230px] ${
+        className={`fixed ${playerPositionClass} left-4 z-[60] w-[200px] overflow-hidden rounded-2xl border border-foreground/15 bg-white shadow-xl transition-opacity sm:w-[230px] ${
           minimized ? "pointer-events-none opacity-0" : "opacity-100"
         }`}
       >
@@ -42,7 +43,7 @@ export function CheerMiniPlayer({ songLabel, embedUrl }: CheerMiniPlayerProps) {
             -
           </button>
         </div>
-        <div className="relative aspect-video w-full">
+        <div className="relative h-[112px] w-full sm:h-[129px]">
           <iframe
             className="absolute inset-0 h-full w-full"
             src={embedUrl}
