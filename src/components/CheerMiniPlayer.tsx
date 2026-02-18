@@ -13,7 +13,7 @@ export function CheerMiniPlayer({ songLabel, embedUrl }: CheerMiniPlayerProps) {
   return (
     <>
       {minimized ? (
-        <div className="fixed bottom-24 left-4 z-50 flex h-10 w-[190px] items-center justify-between rounded-xl border border-foreground/15 bg-white px-3 shadow-xl sm:w-[220px]">
+        <div className="fixed bottom-24 left-4 z-[60] flex h-10 w-[190px] items-center justify-between rounded-xl border border-foreground/15 bg-white px-3 shadow-xl sm:w-[220px]">
           <div className="truncate text-xs font-semibold text-foreground/80">{songLabel}</div>
           <button
             type="button"
@@ -27,7 +27,7 @@ export function CheerMiniPlayer({ songLabel, embedUrl }: CheerMiniPlayerProps) {
       ) : null}
 
       <div
-        className={`fixed bottom-24 left-4 z-50 overflow-hidden rounded-2xl border border-foreground/15 bg-white shadow-xl ${
+        className={`fixed bottom-24 left-4 z-[60] overflow-hidden rounded-2xl border border-foreground/15 bg-white shadow-xl ${
           minimized
             ? "pointer-events-none h-px w-px opacity-0"
             : "w-[200px] sm:w-[230px]"
