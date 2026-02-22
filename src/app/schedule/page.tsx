@@ -215,6 +215,13 @@ const excelScheduleItems: ScheduleItem[] = [
     category: "영상",
   },
   {
+    id: "2026-02-22-youtube",
+    date: "2026-02-22",
+    time: "22:00",
+    title: "<Crown to the Throne> 2편 유튜브 공개",
+    category: "영상",
+  },
+  {
     id: "2026-02-11-ch-chanyeol",
     date: "2026-02-11",
     time: "18:30",
