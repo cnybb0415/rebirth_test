@@ -17,7 +17,7 @@ export default async function NoticeDetailPage({
   }
 
   return (
-    <div className="min-h-screen bg-transparent text-foreground relative">
+    <div className="min-h-screen bg-transparent text-foreground">
       <main className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -66,25 +66,35 @@ export default async function NoticeDetailPage({
             </div>
           ) : null}
           {item.actions && item.actions.length > 0 ? (
-            <div className="mt-6 flex flex-wrap gap-2">
-              {item.actions.map((action, idx) => {
-                if (action.label === "TOSS") {
+            <div className="mt-6 flex flex-wrap gap-2 justify-between">
+              <div className="flex gap-2">
+                {item.actions.map((action, idx) => {
+                  if (action.label === "TOSS") {
+                    return (
+                      <TossActionButton key={`${item.id}-action-${idx}`} href={action.href} label={action.label} />
+                    );
+                  }
                   return (
-                    <TossActionButton key={`${item.id}-action-${idx}`} href={action.href} label={action.label} />
+                    <a
+                      key={`${item.id}-action-${idx}`}
+                      href={action.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/90"
+                    >
+                      {action.label}
+                    </a>
                   );
-                }
-                return (
-                  <a
-                    key={`${item.id}-action-${idx}`}
-                    href={action.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/90"
-                  >
-                    {action.label}
-                  </a>
-                );
-              })}
+                })}
+              </div>
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSe5yBba1sPzJQsy2rBqOP5PU6BZDfw7XmmR-H3nrS7yhhopBw/viewform?usp=send_form"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-2xl border border-foreground/15 bg-white px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm hover:border-foreground/35 hover:shadow-md"
+              >
+                입금 폼 작성
+              </a>
             </div>
           ) : null}
         </section>
@@ -111,15 +121,6 @@ export default async function NoticeDetailPage({
         ) : null}
 
         <AnnouncementDetailActions />
-      {/* 입금 폼 작성 버튼 fixed at bottom right */}
-      <a
-        href="https://docs.google.com/forms/d/e/1FAIpQLSe5yBba1sPzJQsy2rBqOP5PU6BZDfw7XmmR-H3nrS7yhhopBw/viewform?usp=send_form"
-        target="_blank"
-        rel="noreferrer"
-        className="fixed bottom-6 right-6 z-50 rounded-2xl border border-foreground/15 bg-white px-5 py-2.5 text-sm font-semibold text-foreground shadow-lg hover:border-foreground/35 hover:shadow-xl"
-      >
-        입금 폼 작성
-      </a>
     </main>
     </div>
   );
