@@ -6,11 +6,53 @@ export type AnnouncementItem = {
   date: string;
   content: AnnouncementContentLine[];
   images?: Array<{ src: string; alt: string }>;
+  localizedImages?: Array<{
+    label: string;
+    images: Array<{ src: string; alt: string }>;
+    content?: AnnouncementContentLine[];
+  }>;
   actions?: Array<{ label: string; href: string }>;
   ticketLinks?: { mobile: string; desktop: string };
 };
 
 export const announcements: AnnouncementItem[] = [
+  {
+    id: "2",
+    title: "[공지] EXO PLANET #6 - EXhOrizon 팬 이벤트 모금 공지",
+    date: "2026.02.23",
+    content: [
+      "자세한 내용은 사진 참고 부탁드리며 아래 버튼 클릭 시 송금 앱으로 바로 연결됩니다.",
+    ],
+    actions: [
+      {
+        label: "TOSS",
+        href: "supertoss://send?bank=토스&accountNo=100159180057",
+      },
+      { label: "PAYPAL", href: "https://paypal.me/EXOREBIRTH" },
+    ],
+    localizedImages: [
+      {
+        label: "한국어",
+        content: ["자세한 내용은 사진 참고 부탁드리며 아래 버튼 클릭 시 송금 앱으로 바로 연결됩니다."],
+        images: [{ src: "/images/concert/notice/02-1 한국어.jpg", alt: "EXhOrizon 팬 이벤트 모금 안내 한국어" }],
+      },
+      {
+        label: "English",
+        content: ["Please refer to the image for details. Click the button below to open the transfer app directly."],
+        images: [{ src: "/images/concert/notice/02-2 영어.jpg", alt: "EXhOrizon fan event fundraising notice English" }],
+      },
+      {
+        label: "中文",
+        content: ["详细内容请参考图片。点击下方按钮可直接打开转账应用。"],
+        images: [{ src: "/images/concert/notice/02-3 중국어.jpg", alt: "EXhOrizon 粉丝活动募款公告 中文" }],
+      },
+        {
+          label: "日本語",
+          content: ["詳細は画像をご参照いただき、下のボタンをクリックすると送金アプリが直接開きます。"],
+          images: [{ src: "/images/concert/notice/02-4 일본어.jpg", alt: "EXhOrizon ファンイベント募金案内 日本語" }],
+        },
+    ],
+  },
   {
     id: "1",
     title: "[공지] EXO PLANET #6 - EXhOrizon in SEOUL INFO",
@@ -22,11 +64,11 @@ export const announcements: AnnouncementItem[] = [
     },
     images: [
       {
-        src: "/images/concert/notice/01.%EC%A2%8C%EB%B0%B0%EB%8F%84.jpg",
+        src: "/images/concert/notice/01-1 좌배도.jpg",
         alt: "EXO PLANET #6 - EXhOrizon in SEOUL 좌석배치도",
       },
       {
-        src: "/images/concert/notice/02.%ED%83%80%EC%9E%84%ED%85%8C%EC%9D%B4%EB%B8%94jpg.jpg",
+        src: "/images/concert/notice/01-2 타임테이블.jpg",
         alt: "EXO PLANET #6 - EXhOrizon in SEOUL 타임테이블",
       },
     ],
