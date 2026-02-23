@@ -26,7 +26,7 @@ export const announcements: AnnouncementItem[] = [
     actions: [
       {
         label: "TOSS",
-        href: "supertoss://send?bank=토스&accountNo=100159180057",
+        href: "supertoss://send?bank=토스뱅크&accountNo=100159180057",
       },
       { label: "PAYPAL", href: "https://paypal.me/EXOREBIRTH" },
     ],
