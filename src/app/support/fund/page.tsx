@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+import { TossActionButton } from "@/components/AnnouncementDetailActions";
+
 export default function SupportFundPage() {
   return (
     <div className="min-h-screen bg-transparent text-foreground">
@@ -25,14 +27,28 @@ export default function SupportFundPage() {
           </Card>
         </div>
 
-        <div className="mt-6 flex justify-end">
-          <a href="#" className="inline-flex">
-            <button
-              type="button"
-              className="rounded-2xl border border-foreground/15 bg-white px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm hover:border-foreground/35 hover:shadow-md"
+        <div className="mt-6 flex flex-wrap gap-2 justify-between">
+          <div className="flex gap-2">
+            {/* TOSS Button */}
+            <TossActionButton href="supertoss://send?bank=토스뱅크&accountNo=100159180057" label="TOSS" />
+            {/* PAYPAL Button */}
+            <a
+              href="https://paypal.me/EXOREBIRTH"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/90"
             >
-              입금 폼 작성
-            </button>
+              PAYPAL
+            </a>
+          </div>
+          {/* 입금 폼 작성 Button */}
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSe5yBba1sPzJQsy2rBqOP5PU6BZDfw7XmmR-H3nrS7yhhopBw/viewform?usp=send_form"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-2xl border border-foreground/15 bg-white px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm hover:border-foreground/35 hover:shadow-md"
+          >
+            입금 폼 작성
           </a>
         </div>
       </main>
