@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev -- --port 3000)",
+      "Bash(npm install)",
+      "Bash(npx tsc --noEmit)"
+    ]
+  }
+}
