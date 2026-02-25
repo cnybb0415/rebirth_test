@@ -44,31 +44,83 @@ export function AnnouncementDetailActions() {
   };
 
   return (
-    <div className="mt-6">
-      <div className="flex items-center justify-between">
+    <div style={{ marginTop: "16px" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        {/* 뒤로가기 */}
         <button
           type="button"
           onClick={() => window.history.back()}
-          className="inline-flex items-center gap-2 text-sm font-medium text-foreground/70 hover:text-foreground"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "6px",
+            fontSize: "0.72rem",
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            color: "rgba(255,255,255,0.75)",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: "6px 0",
+            transition: "color 0.1s",
+          }}
+          onMouseEnter={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.color = "#ffffff")
+          }
+          onMouseLeave={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.color =
+              "rgba(255,255,255,0.75)")
+          }
         >
-          <span className="text-xl" aria-hidden>
+          <span style={{ fontSize: "1.2rem", lineHeight: 1 }} aria-hidden>
             ‹
           </span>
           뒤로가기
         </button>
 
+        {/* URL 복사 (공유) */}
         <button
           type="button"
           onClick={handleCopy}
           aria-label="공지사항 URL 복사"
-          className="inline-flex h-10 w-10 items-center justify-center text-foreground/70 hover:bg-foreground/5"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "36px",
+            height: "36px",
+            color: copied ? "#ffd700" : "rgba(255,215,0,0.6)",
+            background: "none",
+            border: "1px solid rgba(255,215,0,0.25)",
+            cursor: "pointer",
+            transition: "color 0.1s, border-color 0.1s",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.color = "#ffd700";
+            (e.currentTarget as HTMLButtonElement).style.borderColor =
+              "rgba(255,215,0,0.6)";
+          }}
+          onMouseLeave={(e) => {
+            if (!copied) {
+              (e.currentTarget as HTMLButtonElement).style.color =
+                "rgba(255,215,0,0.6)";
+              (e.currentTarget as HTMLButtonElement).style.borderColor =
+                "rgba(255,215,0,0.25)";
+            }
+          }}
         >
           <svg
             viewBox="0 0 24 24"
-            className="h-5 w-5"
+            style={{ width: "16px", height: "16px" }}
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.6"
+            strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden
@@ -81,9 +133,20 @@ export function AnnouncementDetailActions() {
         </button>
       </div>
 
-      {copied ? (
-        <div className="mt-2 text-right text-xs text-foreground/60">링크 복사됨</div>
-      ) : null}
+      {copied && (
+        <div
+          style={{
+            marginTop: "6px",
+            textAlign: "right",
+            fontSize: "0.55rem",
+            letterSpacing: "0.15em",
+            color: "#ffd700",
+            fontWeight: 700,
+          }}
+        >
+          링크 복사됨 ✓
+        </div>
+      )}
     </div>
   );
 }

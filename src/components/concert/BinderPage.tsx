@@ -21,12 +21,12 @@ export const BINDER_CATEGORIES = [
     textColor: "#1a1100",
   },
   {
-    id: "chorus",
-    title: "떼창곡",
-    emoji: "🎵",
-    href: "/concert/chorus",
-    tabColor: "#00e5ff",
-    textColor: "#001a1f",
+    id: "notice",
+    title: "공지",
+    emoji: "📋",
+    href: "/concert/notice",
+    tabColor: "#ff9b3d",
+    textColor: "#1a0500",
   },
   {
     id: "helper",
@@ -35,6 +35,14 @@ export const BINDER_CATEGORIES = [
     href: "/concert/helper",
     tabColor: "#c084fc",
     textColor: "#0d0020",
+  },
+  {
+    id: "chorus",
+    title: "?",
+    emoji: "🎵",
+    href: "/concert/chorus",
+    tabColor: "#00e5ff",
+    textColor: "#001a1f",
   },
 ] as const;
 
@@ -70,7 +78,6 @@ export function BinderPage({ children, activeTab }: BinderPageProps) {
             background:
               "linear-gradient(170deg, rgba(10,12,28,0.98) 0%, rgba(5,7,18,0.99) 100%)",
             border: "2.5px solid rgba(255,255,255,0.5)",
-            borderRight: "none",
             boxShadow: [
               "inset 0 0 50px rgba(0,229,255,0.025)",
               "inset 1px 0 0 rgba(255,255,255,0.04)",
@@ -86,15 +93,10 @@ export function BinderPage({ children, activeTab }: BinderPageProps) {
 
         {/* ──────────── 인덱스 탭 컬럼 ──────────── */}
         <div
-          className="flex flex-col"
-          style={{
-            width: "42px",
-            border: "2.5px solid rgba(255,255,255,0.5)",
-            borderLeft: "none",
-            background: "rgba(5,7,18,0.98)",
-          }}
+          className="flex flex-col gap-[3px] pt-[2px]"
+          style={{ width: "42px" }}
         >
-          {BINDER_CATEGORIES.map((cat, idx) => {
+          {BINDER_CATEGORIES.map((cat) => {
             const isActive = activeTab === cat.id;
             return (
               <Link
@@ -106,19 +108,18 @@ export function BinderPage({ children, activeTab }: BinderPageProps) {
                   height: `${TAB_H}px`,
                   paddingTop: "10px",
                   paddingBottom: "8px",
-                  gap: "4px",
-                  backgroundColor: cat.tabColor,
-                  borderBottom:
-                    idx < BINDER_CATEGORIES.length - 1
-                      ? "2px solid rgba(0,0,0,0.3)"
-                      : "none",
-                  filter: isActive
-                    ? "brightness(1.05) saturate(1.0)"
-                    : "brightness(0.5) saturate(0.65)",
+                  gap: "6px",
+                  backgroundColor: isActive ? cat.tabColor : "rgba(248, 246, 238, 0.95)",
+                  borderTop: `3px solid ${cat.tabColor}`,
+                  borderRight: "2px solid rgba(255,255,255,0.45)",
+                  borderBottom: "none",
+                  borderLeft: "none",
+                  borderTopRightRadius: "10px",
+                  borderBottomRightRadius: "10px",
                   boxShadow: isActive
-                    ? "inset -4px 0 0 rgba(255,255,255,0.65), inset 0 1px 0 rgba(255,255,255,0.2)"
-                    : "none",
-                  transition: "filter 0.15s, box-shadow 0.15s",
+                    ? `3px 0 12px ${cat.tabColor}55`
+                    : "2px 2px 6px rgba(0,0,0,0.45)",
+                  transition: "background-color 0.15s, box-shadow 0.15s",
                 }}
               >
                 {/* 이모지 */}
@@ -134,11 +135,12 @@ export function BinderPage({ children, activeTab }: BinderPageProps) {
                   className="flex-1 flex items-center justify-center"
                   style={{
                     writingMode: "vertical-rl",
+                    textOrientation: "upright",
                     ...PIXEL_FONT,
                     fontWeight: 800,
                     fontSize: "0.5rem",
-                    letterSpacing: "0.12em",
-                    color: cat.textColor,
+                    letterSpacing: "0.38em",
+                    color: isActive ? cat.textColor : "#1a1020",
                   }}
                 >
                   {cat.title}
@@ -163,16 +165,18 @@ export function BinderHeading({
   title,
   subtitle,
   accentColor,
+  showEmoji = true,
 }: {
   emoji: string;
   title: string;
   subtitle?: string;
   accentColor: string;
+  showEmoji?: boolean;
 }) {
   return (
     <div className="pt-5 pb-4">
       <div className="flex items-center gap-2 mb-[2px]">
-        <span style={{ fontSize: "1.3rem", lineHeight: 1 }}>{emoji}</span>
+        {showEmoji && <span style={{ fontSize: "1.3rem", lineHeight: 1 }}>{emoji}</span>}
         <h1
           className="text-white leading-none"
           style={{

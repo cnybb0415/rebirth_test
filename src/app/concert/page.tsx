@@ -29,8 +29,6 @@ const CONCERT = {
   photo: "diary_main.png" as string | null,
 };
 
-// 장식용 스티커 이모지 (위치: 사진 주변)
-const STICKERS = ["✨", "★", "💫", "★", "✨", "⭐", "★", "💫"];
 
 export default function ConcertPage() {
   return (
@@ -215,18 +213,15 @@ export default function ConcertPage() {
           )}
         </div>
 
-        {/* ── 픽셀 스티커 줄 ── */}
-        <div
-          className="flex justify-center gap-2 mb-5"
-          style={{ fontSize: "0.85rem" }}
+        {/* ── 초능력 이미지 ── */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/초능력.png"
+          alt=""
           aria-hidden
-        >
-          {STICKERS.map((s, i) => (
-            <span key={i} style={{ opacity: i % 2 === 0 ? 0.9 : 0.5 }}>
-              {s}
-            </span>
-          ))}
-        </div>
+          className="mb-5"
+          style={{ width: "100%", height: "auto", opacity: 0.75 }}
+        />
 
         {/* ── 하단 장식 ── */}
         <div

@@ -1,10 +1,14 @@
-import Link from "next/link";
 import { BinderPage, BinderHeading } from "@/components/concert/BinderPage";
+import { PixelButton } from "@/components/concert/PixelButton";
+import { FundingFormModal } from "@/components/concert/FundingFormModal";
+import { NoticeLocalizedImages } from "@/components/NoticeLocalizedImages";
 import { announcements } from "@/data/announcements";
 
 const ACCENT = "#ffd700";
 
 export default function ConcertFundingPage() {
+  const notice = announcements.find((a) => a.id === "2");
+
   return (
     <BinderPage activeTab="funding">
       <BinderHeading
@@ -14,81 +18,100 @@ export default function ConcertFundingPage() {
         accentColor={ACCENT}
       />
 
-      <div className="pb-6 space-y-3">
-        {announcements.length === 0 ? (
+      {notice ? (
+        <div className="pb-6">
+          {/* 날짜 */}
           <p
             style={{
-              fontSize: "0.65rem",
-              color: "rgba(255,255,255,0.3)",
-              letterSpacing: "0.2em",
-              fontWeight: 400,
-              paddingTop: "16px",
+              fontSize: "0.6rem",
+              letterSpacing: "0.18em",
+              color: `${ACCENT}bb`,
+              marginBottom: "12px",
             }}
           >
-            등록된 공지가 없습니다
+            {notice.date}
           </p>
-        ) : (
-          announcements.map((item) => (
-            <Link key={item.id} href={`/notice/${item.id}`} className="block group">
-              <div
-                className="py-3 px-0 border-b transition-all duration-150"
-                style={{ borderColor: "rgba(255,215,0,0.2)" }}
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1 min-w-0">
-                    <p
-                      className="truncate leading-snug"
-                      style={{
-                        fontSize: "0.72rem",
-                        fontWeight: 700,
-                        color: "rgba(255,255,255,0.88)",
-                        letterSpacing: "0.03em",
-                      }}
-                    >
-                      {item.title}
-                    </p>
-                    <p
-                      className="mt-1"
-                      style={{
-                        fontSize: "0.55rem",
-                        color: ACCENT,
-                        letterSpacing: "0.15em",
-                        fontWeight: 400,
-                      }}
-                    >
-                      {item.date}
-                    </p>
-                  </div>
-                  <svg
-                    viewBox="0 0 24 24"
-                    style={{
-                      width: "12px",
-                      height: "12px",
-                      flexShrink: 0,
-                      marginTop: "3px",
-                      color: ACCENT,
-                      opacity: 0.5,
-                    }}
-                    className="group-hover:opacity-100 transition-opacity"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                  >
-                    <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-              </div>
-            </Link>
-          ))
-        )}
-      </div>
 
-      {/* 노트 라인 */}
-      <div className="space-y-[30px] pb-8">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="border-b border-white/8" style={{ minHeight: "20px" }} />
-        ))}
-      </div>
+          {/* 로컬라이즈드 이미지 (언어별 탭) */}
+          {notice.localizedImages && notice.localizedImages.length > 0 ? (
+            <NoticeLocalizedImages
+              itemId={notice.id}
+              sections={notice.localizedImages}
+              fallbackContent={notice.content}
+              dark
+            />
+          ) : null}
+
+          {/* 일반 이미지 (localizedImages 없을 때) */}
+          {notice.images && notice.images.length > 0 && !notice.localizedImages?.length ? (
+            <div className="space-y-3 mt-4">
+              {notice.images.map((img, idx) => (
+                <div
+                  key={idx}
+                  className="overflow-hidden"
+                  style={{ border: `1.5px solid ${ACCENT}44` }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="h-auto w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {/* TOSS / PAYPAL / 입금 폼 작성 — NoticeDetailPage처럼 */}
+<div className="mt-5 flex flex-wrap items-end justify-between gap-3">
+  <div className="flex flex-wrap gap-3">
+    {notice.actions?.map((action, idx) => {
+      if (action.label === "TOSS") {
+        return (
+          <PixelButton
+            key={idx}
+            label="TOSS"
+            accentColor="#00c4db"
+            shadowColor="#008899"
+            textColor="#001a1f"
+            href={action.href}
+            isToss
+          />
+        );
+      }
+
+      return (
+        <PixelButton
+          key={idx}
+          label={action.label}
+          accentColor="#ffd700"
+          shadowColor="#a37f00"
+          textColor="#1a1100"
+          href={action.href}
+        />
+      );
+    })}
+  </div>
+
+  {/* 오른쪽 끝으로 */}
+  <FundingFormModal />
+</div>
+
+          <div className="mt-6" style={{ borderTop: `1px solid ${ACCENT}22` }} />
+        </div>
+      ) : (
+        <p
+          style={{
+            fontSize: "0.65rem",
+            color: "rgba(255,255,255,0.3)",
+            letterSpacing: "0.2em",
+            paddingTop: "16px",
+          }}
+        >
+          등록된 공지가 없습니다
+        </p>
+      )}
     </BinderPage>
   );
 }

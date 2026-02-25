@@ -16,7 +16,7 @@ export type AnnouncementItem = {
 };
 
 export const announcements: AnnouncementItem[] = [
-  {
+   {
     id: "2",
     title: "[공지] EXO PLANET #6 - EXhOrizon 팬 이벤트 모금 공지",
     date: "2026.02.23",
@@ -46,13 +46,13 @@ export const announcements: AnnouncementItem[] = [
         content: ["详细内容请参考图片。点击下方按钮可直接打开转账应用。"],
         images: [{ src: "/images/concert/notice/02-3 중국어.jpg", alt: "EXhOrizon 粉丝活动募款公告 中文" }],
       },
-        {
-          label: "日本語",
-          content: ["詳細は画像をご参照いただき、下のボタンをクリックすると送金アプリが直接開きます。"],
-          images: [{ src: "/images/concert/notice/02-4 일본어.jpg", alt: "EXhOrizon ファンイベント募金案内 日本語" }],
-        },
+      {
+        label: "日本語",
+        content: ["詳細は画像をご参照いただき、下のボタンをクリックすると送金アプリが直接開きます。"],
+        images: [{ src: "/images/concert/notice/02-4 일본어.jpg", alt: "EXhOrizon ファンイベント募金案内 日本語" }],
+      },
     ],
-  },
+  }, 
   {
     id: "1",
     title: "[공지] EXO PLANET #6 - EXhOrizon in SEOUL INFO",

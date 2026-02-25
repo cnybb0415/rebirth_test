@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { BinderPage, BinderHeading } from "@/components/concert/BinderPage";
 import { CheerMiniPlayer } from "@/components/CheerMiniPlayer";
 import { getCheeringSongById } from "@/lib/cheering";
 
@@ -28,6 +27,8 @@ function toYouTubeEmbedUrl(input: string): string {
   return input;
 }
 
+const ACCENT = "#ff4d8d";
+
 export default async function CheerDetailPage({
   params,
 }: {
@@ -41,49 +42,67 @@ export default async function CheerDetailPage({
   const embedUrl = song.youtubeUrl ? toYouTubeEmbedUrl(song.youtubeUrl) : null;
 
   return (
-    <div className="min-h-screen bg-transparent text-foreground">
-      <main className="mx-auto w-full max-w-6xl px-3 py-10 sm:px-6 sm:py-14">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <div className="text-xs text-foreground/70">응원법</div>
-            <h1 className="mt-1 text-2xl font-bold">{song.label}</h1>
-          </div>
-          <Link href="/cheer">
-            <Button variant="outline">목록</Button>
-          </Link>
+    <BinderPage activeTab="cheer">
+      <div className="pt-1 pb-6">
+        <BinderHeading
+          emoji="📣"
+          title={song.label}
+          subtitle="CHEER GUIDE"
+          accentColor={ACCENT}
+        />
+
+        <Link
+          href="/concert/cheer"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "4px",
+            fontSize: "0.55rem",
+            letterSpacing: "0.2em",
+            color: "rgba(255,77,141,0.7)",
+            fontWeight: 700,
+            marginBottom: "14px",
+          }}
+        >
+          ← 목록
+        </Link>
+
+        <div className="space-y-3">
+          {hasAssets ? (
+            song.guideAssets.map((asset, idx) => (
+              <div
+                key={`img-${idx}`}
+                className="overflow-hidden"
+                style={{ border: `1.5px solid ${ACCENT}55` }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={asset.src}
+                  alt={asset.alt ?? `${song.label} 이미지 ${idx + 1}`}
+                  className="h-auto w-full"
+                  loading="lazy"
+                />
+              </div>
+            ))
+          ) : (
+            <div
+              style={{
+                padding: "24px",
+                border: `1.5px dashed ${ACCENT}44`,
+                textAlign: "center",
+                fontSize: "0.6rem",
+                letterSpacing: "0.25em",
+                color: "rgba(255,255,255,0.3)",
+                fontWeight: 700,
+              }}
+            >
+              COMING SOON
+            </div>
+          )}
         </div>
 
-        <div className="mt-6">
-          <Card>
-            <CardContent className="space-y-3">
-              {hasAssets ? (
-                song.guideAssets.map((asset, idx) => (
-                  <div
-                    key={`img-${idx}`}
-                    className="overflow-hidden rounded-2xl border border-foreground/10 bg-white"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={asset.src}
-                      alt={asset.alt ?? `${song.label} 이미지 ${idx + 1}`}
-                      className="h-auto w-full"
-                      loading="lazy"
-                    />
-                  </div>
-                ))
-              ) : (
-                <div className="rounded-xl border border-foreground/10 bg-white p-4 text-sm text-foreground/70">
-                  준비중
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {embedUrl ? (
-          <CheerMiniPlayer songLabel={song.label} embedUrl={embedUrl} />
-        ) : null}
-      </main>
-    </div>
+        {embedUrl && <CheerMiniPlayer songLabel={song.label} embedUrl={embedUrl} />}
+      </div>
+    </BinderPage>
   );
 }
