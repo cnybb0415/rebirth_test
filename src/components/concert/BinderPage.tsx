@@ -38,7 +38,7 @@ export const BINDER_CATEGORIES = [
   },
   {
     id: "chorus",
-    title: "?",
+    title: "떼창곡",
     emoji: "🎵",
     href: "/concert/chorus",
     tabColor: "#00e5ff",

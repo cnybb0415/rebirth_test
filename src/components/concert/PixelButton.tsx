@@ -33,6 +33,16 @@ export function PixelButton({
 }: PixelButtonProps) {
   const [pressed, setPressed] = useState(false);
 
+   // 모바일에서 자동으로 줄어드는 값들 (작은 화면=최소값, 큰 화면=최대값)
+  const FACE_PAD_Y = "clamp(4px, 1.2vw, 7px)";
+  const FACE_PAD_X = "clamp(8px, 2.2vw, 14px)";
+  const FACE_FONT  = "clamp(0.48rem, 1.6vw, 0.65rem)";
+  const FACE_TRACK = "clamp(0.06em, 0.6vw, 0.12em)"; // letterSpacing
+  const FACE_MIN_W = "clamp(52px, 16vw, 72px)";
+
+  const BASE_H = pressed ? "2px" : "clamp(3px, 0.9vw, 5px)";
+  const BASE_PAD_BOTTOM = "clamp(3px, 0.9vw, 5px)";
+
   const handleAction = () => {
     if (isToss && href) {
       try {
@@ -71,7 +81,7 @@ export function PixelButton({
         background: "none",
         padding: 0,
         /* 버튼 base 높이만큼 아래 여백 확보 */
-        paddingBottom: "5px",
+        paddingBottom: BASE_PAD_BOTTOM,
         ...PIXEL_FONT,
       }}
     >
@@ -83,7 +93,7 @@ export function PixelButton({
           bottom: 0,
           left: "2px",
           right: "2px",
-          height: pressed ? "2px" : "5px",
+          height: pressed ? "2px" : BASE_H,
           backgroundColor: shadowColor,
           borderRadius: "3px 3px 4px 4px",
           transition: "height 0.07s ease",
@@ -97,8 +107,8 @@ export function PixelButton({
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: "7px 18px",
-          minWidth: "64px",
+          padding: `${FACE_PAD_Y} ${FACE_PAD_X}`,
+          minWidth: FACE_MIN_W,
           backgroundColor: accentColor,
           border: "2px solid rgba(0,0,0,0.35)",
           borderRadius: "4px",
@@ -107,9 +117,9 @@ export function PixelButton({
             "inset 0 2px 0 rgba(255,255,255,0.35), inset 2px 0 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.2)",
           transform: pressed ? "translateY(3px)" : "translateY(0px)",
           transition: "transform 0.07s ease",
-          fontSize: "0.6rem",
+          fontSize: FACE_FONT,
           fontWeight: 800,
-          letterSpacing: "0.12em",
+          letterSpacing: FACE_TRACK,
           color: textColor,
           whiteSpace: "nowrap",
         }}

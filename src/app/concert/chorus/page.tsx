@@ -5,8 +5,8 @@ export default function ConcertChorusPage() {
     <BinderPage activeTab="chorus">
       <BinderHeading
         emoji="🎵"
-        title="??????"
-        subtitle="??????"
+        title="떼창곡"
+        subtitle="떼창곡 연습하기!"
         accentColor="#00e5ff"
       />
       <ComingSoon accentColor="#00e5ff" />
