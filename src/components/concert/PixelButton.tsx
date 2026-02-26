@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const PIXEL_FONT: React.CSSProperties = {
-  fontFamily: "'PFStarDust', monospace",
+  fontFamily: "'Mulmaru', monospace",
   WebkitFontSmoothing: "none",
 };
 
