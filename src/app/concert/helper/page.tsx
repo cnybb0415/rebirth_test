@@ -2,7 +2,7 @@ import { BinderPage, BinderHeading, ComingSoon } from "@/components/concert/Bind
 
 export default function ConcertHelperPage() {
   return (
-    <BinderPage activeTab="helper">
+    <BinderPage activeTab="helper" pixelFontFamily="'Mulmaru', 'PFStarDust', monospace">
       <BinderHeading
         emoji="🛸"
         title="헬퍼모집"

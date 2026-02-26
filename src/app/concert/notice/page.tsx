@@ -6,7 +6,7 @@ const ACCENT = "#ff9b3d";
 
 export default function ConcertNoticePage() {
   return (
-    <BinderPage activeTab="notice">
+    <BinderPage activeTab="notice" pixelFontFamily="'DungGeunMo', monospace">
       <BinderHeading
         emoji="📋"
         title="공지사항"
@@ -28,7 +28,7 @@ export default function ConcertNoticePage() {
             등록된 공지가 없습니다
           </p>
         ) : (
-          announcements.map((item) => (
+          announcements.filter((a) => a.id !== "2").map((item) => (
             <Link key={item.id} href={`/notice/${item.id}`} className="block group">
               <div
                 className="py-3 border-b transition-all duration-150"

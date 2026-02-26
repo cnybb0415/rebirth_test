@@ -34,6 +34,26 @@
   font-display: swap;
 }
 
+/* ── DungGeunMo (둥근모) — 공지/notice 등에 사용 ── */
+@font-face {
+  font-family: "DungGeunMo";
+  src: url("/font/DungGeunMo.woff2") format("woff2"),
+    url("/font/DungGeunMo.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Mulmaru (물마루) — 떼창곡 등에 사용 ── */
+@font-face {
+  font-family: "Mulmaru";
+  src: url("/font/Mulmaru.woff2") format("woff2"),
+    url("/font/Mulmaru.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* 픽셀 폰트 계단현상 방지 */
 .pixel-font, [data-pixel-font] {
   font-family: "PFStarDust", ui-monospace, monospace; /* ✅ 이 줄 추가 */

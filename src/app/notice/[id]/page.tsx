@@ -22,7 +22,7 @@ export default async function NoticeDetailPage({
   }
 
   return (
-    <BinderPage activeTab="notice">
+    <BinderPage activeTab="notice" pixelFontFamily="'DungGeunMo', monospace">
       <div className="pt-1 pb-6">
         <BinderHeading
           emoji="📋"

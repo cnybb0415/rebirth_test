@@ -52,6 +52,8 @@ interface BinderPageProps {
   children: React.ReactNode;
   /** 현재 활성 탭 ID — 없으면 메인 화면 */
   activeTab?: CategoryId;
+  /** 페이지 콘텐츠에 적용할 픽셀 폰트 패밀리 (기본: PFStarDust) */
+  pixelFontFamily?: string;
 }
 
 const PIXEL_FONT: React.CSSProperties = {
@@ -62,12 +64,12 @@ const PIXEL_FONT: React.CSSProperties = {
 /** 인덱스 탭 고정 높이 (px) */
 const TAB_H = 80;
 
-export function BinderPage({ children, activeTab }: BinderPageProps) {
+export function BinderPage({ children, activeTab, pixelFontFamily }: BinderPageProps) {
   return (
     /* 바깥 여백 — 모바일에서 사방 숨쉬기 */
     <div
       className="px-4 pt-5 pb-6 flex justify-center"
-      style={PIXEL_FONT}
+      style={{ ...PIXEL_FONT, fontFamily: pixelFontFamily ?? PIXEL_FONT.fontFamily }}
     >
       <div className="flex w-full" style={{ maxWidth: "400px" }}>
 

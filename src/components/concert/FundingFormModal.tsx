@@ -138,7 +138,7 @@ export function FundingFormModal() {
                 overflow: "auto",
                 position: "relative",
                 /* 최소 높이로 스크롤 없이 볼 수 있는 영역 확보 */
-                minHeight: "370px",
+                minHeight: "400px",
               }}
             >
               <iframe
@@ -146,7 +146,7 @@ export function FundingFormModal() {
                 style={{
                   width: "100%",
                   /* iframe 내부 높이를 충분히 설정해 스크롤 가능하게 */
-                  height: "370px",
+                  height: "400px",
                   border: "none",
                   display: "block",
                 }}
