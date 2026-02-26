@@ -63,31 +63,10 @@ export function ChorusTVScreen() {
           }}
         >
           {/* Corner bracket decorations */}
-          {(
-            [
-              { top: "7px", left: "7px", bT: true, bL: true },
-              { top: "7px", right: "7px", bT: true, bR: true },
-              { bottom: "7px", left: "7px", bB: true, bL: true },
-              { bottom: "7px", right: "7px", bB: true, bR: true },
-            ] as const
-          ).map((pos, i) => (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                width: "8px",
-                height: "8px",
-                ...(pos.top !== undefined ? { top: pos.top } : {}),
-                ...(pos.bottom !== undefined ? { bottom: pos.bottom } : {}),
-                ...(pos.left !== undefined ? { left: pos.left } : {}),
-                ...(pos.right !== undefined ? { right: pos.right } : {}),
-                borderTop: pos.bT ? `2px solid ${ACCENT}` : "none",
-                borderBottom: pos.bB ? `2px solid ${ACCENT}` : "none",
-                borderLeft: pos.bL ? `2px solid ${ACCENT}` : "none",
-                borderRight: pos.bR ? `2px solid ${ACCENT}` : "none",
-              }}
-            />
-          ))}
+          <div style={{ position: "absolute", top: "7px", left: "7px", width: "8px", height: "8px", borderTop: `2px solid ${ACCENT}`, borderLeft: `2px solid ${ACCENT}` }} />
+          <div style={{ position: "absolute", top: "7px", right: "7px", width: "8px", height: "8px", borderTop: `2px solid ${ACCENT}`, borderRight: `2px solid ${ACCENT}` }} />
+          <div style={{ position: "absolute", bottom: "7px", left: "7px", width: "8px", height: "8px", borderBottom: `2px solid ${ACCENT}`, borderLeft: `2px solid ${ACCENT}` }} />
+          <div style={{ position: "absolute", bottom: "7px", right: "7px", width: "8px", height: "8px", borderBottom: `2px solid ${ACCENT}`, borderRight: `2px solid ${ACCENT}` }} />
 
           {/* Header bar */}
           <div
