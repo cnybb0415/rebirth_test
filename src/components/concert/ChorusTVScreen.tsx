@@ -10,9 +10,9 @@ const PIXEL_FONT: React.CSSProperties = {
 };
 
 const DAYS = [
-  { label: "DAY 1", videoId: "fphhWhG-INs" },
-  { label: "DAY 2", videoId: "5-UJytXbaaU" },
-  { label: "DAY 3", videoId: "6SBvwaQKHXc" },
+  { label: "DAY 1", videoId: "fphhWhG-INs", img: "/images/concert/sing-along/DAY1.jpg" },
+  { label: "DAY 2", videoId: "5-UJytXbaaU", img: "/images/concert/sing-along/DAY2.jpg" },
+  { label: "DAY 3", videoId: "6SBvwaQKHXc", img: "/images/concert/sing-along/DAY3.jpg" },
 ] as const;
 
 type DayIdx = 0 | 1 | 2;
@@ -23,7 +23,7 @@ export function ChorusTVScreen() {
 
   const embedUrl =
     selectedDay !== null
-      ? `https://www.youtube.com/embed/${DAYS[selectedDay].videoId}?autoplay=1&rel=0`
+      ? `https://www.youtube.com/embed/${DAYS[selectedDay].videoId}?autoplay=0&rel=0`
       : null;
 
   return (
@@ -385,6 +385,64 @@ export function ChorusTVScreen() {
             );
           })}
         </div>
+
+        {/* ══ 선택된 DAY 사진 ══ */}
+        {selectedDay !== null && (
+          <div style={{ position: "relative", width: "100%" }}>
+            {/* 코너 브래킷 */}
+            <div style={{ position: "absolute", top: 6, left: 6, width: 10, height: 10, borderTop: `2px solid ${ACCENT}`, borderLeft: `2px solid ${ACCENT}`, zIndex: 4 }} />
+            <div style={{ position: "absolute", top: 6, right: 6, width: 10, height: 10, borderTop: `2px solid ${ACCENT}`, borderRight: `2px solid ${ACCENT}`, zIndex: 4 }} />
+            <div style={{ position: "absolute", bottom: 6, left: 6, width: 10, height: 10, borderBottom: `2px solid ${ACCENT}`, borderLeft: `2px solid ${ACCENT}`, zIndex: 4 }} />
+            <div style={{ position: "absolute", bottom: 6, right: 6, width: 10, height: 10, borderBottom: `2px solid ${ACCENT}`, borderRight: `2px solid ${ACCENT}`, zIndex: 4 }} />
+
+            {/* 사진 */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              key={selectedDay}
+              src={DAYS[selectedDay].img}
+              alt={DAYS[selectedDay].label}
+              style={{
+                display: "block",
+                width: "100%",
+                height: "auto",
+                border: `2px solid ${ACCENT}55`,
+                borderRadius: "4px",
+              }}
+            />
+
+
+            {/* CRT 비네팅 */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.6) 100%)",
+                borderRadius: "4px",
+                zIndex: 3,
+                pointerEvents: "none",
+              }}
+            />
+
+            {/* DAY 레이블 */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: 10,
+                right: 12,
+                zIndex: 5,
+                ...PIXEL_FONT,
+                fontSize: "clamp(0.38rem, 1.1vw, 0.46rem)",
+                fontWeight: 800,
+                letterSpacing: "0.2em",
+                color: ACCENT,
+                textShadow: `0 0 8px ${ACCENT}`,
+              }}
+            >
+              {DAYS[selectedDay].label}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
