@@ -8,7 +8,7 @@ export default async function ConertCheerPage() {
   const songs = await getCheeringSongs();
 
   return (
-    <BinderPage activeTab="cheer">
+    <BinderPage activeTab="cheer" pixelFontFamily="'Mulmaru', 'PFStarDust', monospace">
       <BinderHeading
         emoji="📣"
         title="응원법"

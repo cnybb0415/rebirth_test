@@ -120,6 +120,7 @@ export function BinderPage({ children, activeTab, pixelFontFamily }: BinderPageP
                   paddingTop: "10px",
                   paddingBottom: "8px",
                   gap: "6px",
+                  overflow: "hidden",         /* 탭 경계 밖으로 글자 못 나오게 */
                   backgroundColor: isActive ? cat.tabColor : "rgba(248, 246, 238, 0.95)",
                   borderTop: `3px solid ${cat.tabColor}`,
                   borderRight: "2px solid rgba(255,255,255,0.45)",
@@ -141,16 +142,17 @@ export function BinderPage({ children, activeTab, pixelFontFamily }: BinderPageP
                   {cat.emoji}
                 </span>
 
-                {/* 세로 텍스트 */}
+                {/* 세로 텍스트 — Mulmaru: 기기 간 폭 일관성 보장 */}
                 <span
-                  className="flex-1 flex items-center justify-center overflow-hidden"
+                  className="flex-1 flex items-center justify-center"
                   style={{
                     writingMode: "vertical-rl",
                     textOrientation: "upright",
-                    ...PIXEL_FONT,
+                    fontFamily: "'PFStarDust', monospace",
+                    WebkitFontSmoothing: "none",
                     fontWeight: 800,
                     fontSize: TAB_FONT_SIZE,
-                    letterSpacing: "0.35em",
+                    letterSpacing: "0.2em",
                     color: isActive ? cat.textColor : "#1a1020",
                   }}
                 >

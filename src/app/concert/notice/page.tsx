@@ -6,7 +6,7 @@ const ACCENT = "#ff9b3d";
 
 export default function ConcertNoticePage() {
   return (
-    <BinderPage activeTab="notice" pixelFontFamily="'DungGeunMo', monospace">
+    <BinderPage activeTab="notice" pixelFontFamily="'Mulmaru', 'PFStarDust', monospace">
       <BinderHeading
         emoji="📋"
         title="공지사항"

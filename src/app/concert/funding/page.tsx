@@ -10,7 +10,7 @@ export default function ConcertFundingPage() {
   const notice = announcements.find((a) => a.id === "2");
 
   return (
-    <BinderPage activeTab="funding">
+    <BinderPage activeTab="funding" pixelFontFamily="'Mulmaru', 'PFStarDust', monospace">
       <BinderHeading
         emoji="💰"
         title="모금"
