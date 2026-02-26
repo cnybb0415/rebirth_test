@@ -61,8 +61,17 @@ const PIXEL_FONT: React.CSSProperties = {
   WebkitFontSmoothing: "none",
 };
 
-/** 인덱스 탭 고정 높이 (px) */
-const TAB_H = 80;
+// ─────────────────────────────────────────────────────────
+//  ★ 인덱스 탭 크기 조절 — 여기만 수정하면 됩니다
+//    TAB_W  : 탭 가로폭 (px)
+//    TAB_H  : 탭 세로 높이 (px)
+//    TAB_FONT_SIZE : 탭 텍스트 크기 (rem)  ← 크게 할수록 글자가 커짐
+//    TAB_EMOJI_SIZE: 탭 이모지 크기 (rem)
+// ─────────────────────────────────────────────────────────
+const TAB_W = 25;        // px — 줄일수록 탭이 얇아지고 본문이 넓어짐
+const TAB_H = 80;        // px — 높이는 모든 탭에 동일 적용
+const TAB_FONT_SIZE  = "0.65rem"; // 탭 세로 글자 크기
+const TAB_EMOJI_SIZE = "0.8rem";  // 탭 이모지 크기
 
 export function BinderPage({ children, activeTab, pixelFontFamily }: BinderPageProps) {
   return (
@@ -71,7 +80,7 @@ export function BinderPage({ children, activeTab, pixelFontFamily }: BinderPageP
       className="px-4 pt-5 pb-6 flex justify-center"
       style={{ ...PIXEL_FONT, fontFamily: pixelFontFamily ?? PIXEL_FONT.fontFamily }}
     >
-      <div className="flex w-full" style={{ maxWidth: "400px" }}>
+      <div className="flex w-full" style={{ maxWidth: "500px" }}>
 
         {/* ──────────── 바인더 본체 ──────────── */}
         <div
@@ -96,7 +105,7 @@ export function BinderPage({ children, activeTab, pixelFontFamily }: BinderPageP
         {/* ──────────── 인덱스 탭 컬럼 ──────────── */}
         <div
           className="flex flex-col gap-[3px] pt-[2px]"
-          style={{ width: "42px" }}
+          style={{ width: `${TAB_W}px` }}
         >
           {BINDER_CATEGORIES.map((cat) => {
             const isActive = activeTab === cat.id;
@@ -127,21 +136,21 @@ export function BinderPage({ children, activeTab, pixelFontFamily }: BinderPageP
                 {/* 이모지 */}
                 <span
                   className="leading-none transition-transform group-hover:scale-110"
-                  style={{ fontSize: "0.95rem" }}
+                  style={{ fontSize: TAB_EMOJI_SIZE }}
                 >
                   {cat.emoji}
                 </span>
 
                 {/* 세로 텍스트 */}
                 <span
-                  className="flex-1 flex items-center justify-center"
+                  className="flex-1 flex items-center justify-center overflow-hidden"
                   style={{
                     writingMode: "vertical-rl",
                     textOrientation: "upright",
                     ...PIXEL_FONT,
                     fontWeight: 800,
-                    fontSize: "0.5rem",
-                    letterSpacing: "0.38em",
+                    fontSize: TAB_FONT_SIZE,
+                    letterSpacing: "0.35em",
                     color: isActive ? cat.textColor : "#1a1020",
                   }}
                 >
