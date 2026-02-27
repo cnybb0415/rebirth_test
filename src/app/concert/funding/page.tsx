@@ -6,8 +6,29 @@ import { announcements } from "@/data/announcements";
 
 const ACCENT = "#ffd700";
 
+// ─────────────────────────────────────────────────────────
+//  ★ 모금 퍼센트 — 여기서만 수정하면 배터리가 바뀝니다 (0 ~ 100)
+// ─────────────────────────────────────────────────────────
+const FUND_PERCENT = 0;
+
+// 디데이 기준일 (콘서트 첫날)
+const CONCERT_DATE = new Date("2026-04-10T00:00:00+09:00");
+
+function getDDay() {
+  const diff = Math.ceil(
+    (CONCERT_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+  );
+  if (diff > 0) return `EXhOrizon in SEOUL D-${diff}`;
+  if (diff === 0) return "D-DAY";
+  return `D+${Math.abs(diff)}`;
+}
+
+const TOTAL_CELLS = 10; // 배터리 칸 수
+
 export default function ConcertFundingPage() {
   const notice = announcements.find((a) => a.id === "2");
+  const dDay = getDDay();
+  const filledCells = Math.round((FUND_PERCENT / 100) * TOTAL_CELLS);
 
   return (
     <BinderPage activeTab="funding" pixelFontFamily="'Mulmaru', 'PFStarDust', monospace">
@@ -31,6 +52,132 @@ export default function ConcertFundingPage() {
           >
             {notice.date}
           </p>
+
+          {/* ══ D-day + 픽셀 배터리 ══ */}
+          <div
+            style={{
+              marginBottom: "18px",
+              background: "rgba(0,0,0,0.35)",
+              border: `1.5px solid ${ACCENT}33`,
+              borderRadius: "6px",
+              padding: "12px 14px",
+            }}
+          >
+            {/* 헤더 행 */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "10px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "0.48rem",
+                  letterSpacing: "0.28em",
+                  color: `${ACCENT}88`,
+                  fontWeight: 700,
+                }}
+              >
+                ■ FUNDING STATUS
+              </span>
+              {/* 디데이 */}
+              <span
+                style={{
+                  fontSize: "0.75rem",
+                  fontWeight: 800,
+                  letterSpacing: "0.12em",
+                  color: ACCENT,
+                  textShadow: `0 0 10px ${ACCENT}88`,
+                }}
+              >
+                {dDay}
+              </span>
+            </div>
+
+            {/* 배터리 본체 */}
+            <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
+              {/* 배터리 바디 */}
+              <div
+                style={{
+                  flex: 1,
+                  border: `2px solid ${ACCENT}99`,
+                  borderRadius: "3px",
+                  padding: "3px",
+                  display: "flex",
+                  gap: "3px",
+                  background: "rgba(0,0,0,0.5)",
+                  boxShadow: `inset 0 0 8px rgba(0,0,0,0.6), 0 0 6px ${ACCENT}22`,
+                }}
+              >
+                {Array.from({ length: TOTAL_CELLS }).map((_, i) => {
+                  const filled = i < filledCells;
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        flex: 1,
+                        height: "18px",
+                        borderRadius: "1px",
+                        backgroundColor: filled
+                          ? ACCENT
+                          : `${ACCENT}18`,
+                        border: `1px solid ${filled ? ACCENT + "cc" : ACCENT + "22"}`,
+                        boxShadow: filled ? `0 0 6px ${ACCENT}88` : "none",
+                        transition: "background-color 0.3s",
+                      }}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* 배터리 단자 돌기 */}
+              <div
+                style={{
+                  width: "5px",
+                  height: "12px",
+                  backgroundColor: `${ACCENT}77`,
+                  borderRadius: "0 2px 2px 0",
+                  flexShrink: 0,
+                }}
+              />
+            </div>
+
+            {/* 퍼센트 + 목표 텍스트 */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                justifyContent: "flex-end",
+                marginTop: "6px",
+                gap: "4px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "1rem",
+                  fontWeight: 800,
+                  color: FUND_PERCENT === 0 ? `${ACCENT}55` : ACCENT,
+                  letterSpacing: "0.05em",
+                  textShadow: FUND_PERCENT > 0 ? `0 0 12px ${ACCENT}99` : "none",
+                }}
+              >
+                {FUND_PERCENT}%
+              </span>
+              <span
+                style={{
+                  fontSize: "0.42rem",
+                  letterSpacing: "0.18em",
+                  color: `${ACCENT}44`,
+                  fontWeight: 400,
+                  paddingBottom: "2px",
+                }}
+              >
+                CHARGED
+              </span>
+            </div>
+          </div>
 
           {/* 로컬라이즈드 이미지 (언어별 탭) */}
           {notice.localizedImages && notice.localizedImages.length > 0 ? (
