@@ -3,10 +3,12 @@ import { notFound } from "next/navigation";
 import { BinderPage, BinderHeading } from "@/components/concert/BinderPage";
 import { CheerMiniPlayer } from "@/components/CheerMiniPlayer";
 import { CheerGuideViewer } from "@/components/CheerGuideViewer";
-import { getCheeringSongById } from "@/lib/cheering";
+import { getCheeringSongs, getCheeringSongById } from "@/lib/cheering";
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export async function generateStaticParams() {
+  const songs = await getCheeringSongs();
+  return songs.map((s) => ({ songId: s.slug }));
+}
 
 function toYouTubeEmbedUrl(input: string): string {
   try {
