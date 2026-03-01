@@ -9,7 +9,7 @@ const ACCENT = "#ffd700";
 // ─────────────────────────────────────────────────────────
 //  ★ 모금 퍼센트 — 여기서만 수정하면 배터리가 바뀝니다 (0 ~ 100)
 // ─────────────────────────────────────────────────────────
-const FUND_PERCENT = 0;
+const FUND_PERCENT = 19.9;
 
 // 디데이 기준일 (콘서트 첫날)
 const CONCERT_DATE = new Date("2026-04-10T00:00:00+09:00");
@@ -41,18 +41,6 @@ export default function ConcertFundingPage() {
 
       {notice ? (
         <div className="pb-6">
-          {/* 날짜 */}
-          <p
-            style={{
-              fontSize: "0.6rem",
-              letterSpacing: "0.18em",
-              color: `${ACCENT}bb`,
-              marginBottom: "12px",
-            }}
-          >
-            {notice.date}
-          </p>
-
           {/* ══ D-day + 픽셀 배터리 ══ */}
           <div
             style={{
@@ -158,9 +146,9 @@ export default function ConcertFundingPage() {
                 style={{
                   fontSize: "1rem",
                   fontWeight: 800,
-                  color: FUND_PERCENT === 0 ? `${ACCENT}55` : ACCENT,
+                  color: ACCENT,
                   letterSpacing: "0.05em",
-                  textShadow: FUND_PERCENT > 0 ? `0 0 12px ${ACCENT}99` : "none",
+                  textShadow: `0 0 12px ${ACCENT}99`,
                 }}
               >
                 {FUND_PERCENT}%

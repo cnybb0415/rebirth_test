@@ -55,11 +55,10 @@ function toSlug(name: string): string {
     .toLowerCase();
 }
 
-export type CheeringSongAsset = {
-  type: "image";
-  src: string;
-  alt: string;
-};
+// 타입·상수는 클라이언트에서도 쓸 수 있도록 별도 파일에서 관리
+export type { CheeringSongAsset, LangKey } from "./cheering-types";
+export { LANG_LABELS } from "./cheering-types";
+import type { CheeringSongAsset, LangKey } from "./cheering-types";
 
 export type CheeringSong = {
   id: string; // folder name under public/images/concert/cheering
@@ -69,8 +68,18 @@ export type CheeringSong = {
   coverSrc: string | null;
   youtubeUrl: string | null;
   hasGuide: boolean;
-  guideAssets: CheeringSongAsset[];
+  guideAssets: CheeringSongAsset[];         // 전체 (하위 호환)
+  guideByLang: Record<LangKey, CheeringSongAsset[]>; // 언어별
 };
+
+/** 파일명 suffix로 언어 키 판별 */
+function getLangKey(filename: string): LangKey {
+  const base = path.basename(filename, path.extname(filename));
+  if (base.endsWith("_eng")) return "en";
+  if (base.endsWith("_cn"))  return "cn";
+  if (base.endsWith("_jp"))  return "jp";
+  return "ko";
+}
 
 const YOUTUBE_BY_SLUG: Record<string, string> = {
   mama: "https://music.youtube.com/watch?v=uVAdqc1oX7g&si=JbbedrwA0zlRwzF9",
@@ -141,6 +150,19 @@ export async function getCheeringSongs(): Promise<CheeringSong[]> {
         alt: `${label} 응원법`,
       }));
 
+      // 언어별로 분류
+      const guideByLang: Record<LangKey, CheeringSongAsset[]> = {
+        ko: [], en: [], cn: [], jp: [],
+      };
+      for (const file of guideFiles) {
+        const lang = getLangKey(file);
+        guideByLang[lang].push({
+          type: "image",
+          src: `/images/concert/cheering/${encodePathSegments(dirName, "guide", file)}`,
+          alt: `${label} 응원법`,
+        });
+      }
+
       return {
         id: dirName,
         slug,
@@ -150,6 +172,7 @@ export async function getCheeringSongs(): Promise<CheeringSong[]> {
         youtubeUrl: YOUTUBE_BY_SLUG[slug] ?? null,
         hasGuide: guideAssets.length > 0,
         guideAssets,
+        guideByLang,
       } satisfies CheeringSong;
     })
   );

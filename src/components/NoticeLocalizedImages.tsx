@@ -16,7 +16,7 @@ type NoticeLocalizedImagesProps = {
 };
 
 const PIXEL_FONT: React.CSSProperties = {
-  fontFamily: "'PFStarDust', monospace",
+  fontFamily: "'Mulmaru', 'PFStarDust', monospace",
   WebkitFontSmoothing: "none",
 };
 
@@ -43,35 +43,67 @@ export function NoticeLocalizedImages({
     return (
       <div>
         {/* 언어 탭 */}
-        <div className="flex flex-wrap gap-[6px] mb-4">
-          {sections.map((section, idx) => (
-            <button
-              key={`${itemId}-tab-${section.label}`}
-              type="button"
-              onClick={() => setSelectedIndex(idx)}
-              style={{
-                ...PIXEL_FONT,
-                fontSize: "0.5rem",
-                fontWeight: 800,
-                letterSpacing: "0.1em",
-                padding: "4px 10px",
-                border:
-                  idx === selectedIndex
-                    ? "1.5px solid #ffd700"
-                    : "1.5px solid rgba(255,215,0,0.25)",
-                backgroundColor:
-                  idx === selectedIndex ? "#ffd700" : "transparent",
-                color:
-                  idx === selectedIndex
-                    ? "#1a1100"
-                    : "rgba(255,215,0,0.6)",
-                cursor: "pointer",
-                transition: "all 0.1s",
-              }}
-            >
-              {section.label}
-            </button>
-          ))}
+        <div style={{ display: "flex", gap: "4px", marginBottom: "12px", flexWrap: "wrap" }}>
+          {sections.map((section, idx) => {
+            const isActive = idx === selectedIndex;
+            return (
+              <button
+                key={`${itemId}-tab-${section.label}`}
+                type="button"
+                onClick={() => setSelectedIndex(idx)}
+                style={{
+                  position: "relative",
+                  border: "none",
+                  background: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                  paddingBottom: isActive ? "2px" : "4px",
+                  ...PIXEL_FONT,
+                }}
+              >
+                {/* 버튼 그림자 */}
+                <span
+                  aria-hidden
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: "2px",
+                    right: "2px",
+                    height: isActive ? "2px" : "4px",
+                    backgroundColor: isActive ? "#8b7200" : "#3a2e00",
+                    borderRadius: "1px 1px 3px 3px",
+                    transition: "height 0.07s ease",
+                  }}
+                />
+                {/* 버튼 면 */}
+                <span
+                  style={{
+                    position: "relative",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "4px 10px",
+                    backgroundColor: isActive ? "#ffd700" : "rgba(255,215,0,0.08)",
+                    border: `1.5px solid ${isActive ? "#ffd700" : "rgba(255,215,0,0.25)"}`,
+                    borderRadius: "3px",
+                    fontSize: "0.52rem",
+                    fontWeight: 800,
+                    letterSpacing: "0.1em",
+                    color: isActive ? "#1a1100" : "rgba(255,215,0,0.55)",
+                    boxShadow: isActive
+                      ? "0 0 10px rgba(255,215,0,0.35), inset 0 1px 0 rgba(255,255,255,0.25)"
+                      : "none",
+                    transform: isActive ? "translateY(2px)" : "translateY(0)",
+                    transition:
+                      "transform 0.07s ease, background-color 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {section.label}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         {/* 이미지 */}

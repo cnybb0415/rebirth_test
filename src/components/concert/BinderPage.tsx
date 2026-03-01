@@ -29,20 +29,20 @@ export const BINDER_CATEGORIES = [
     textColor: "#1a0500",
   },
   {
-    id: "helper",
-    title: "헬퍼모집",
-    emoji: "🛸",
-    href: "/concert/helper",
-    tabColor: "#c084fc",
-    textColor: "#0d0020",
-  },
-  {
     id: "chorus",
     title: "떼창곡",
     emoji: "🎵",
     href: "/concert/chorus",
     tabColor: "#00e5ff",
     textColor: "#001a1f",
+  },
+  {
+    id: "helper",
+    title: "헬퍼모집",
+    emoji: "🛸",
+    href: "/concert/helper",
+    tabColor: "#c084fc",
+    textColor: "#0d0020",
   },
 ] as const;
 
