@@ -152,7 +152,7 @@ export function BinderPage({ children, activeTab, pixelFontFamily }: BinderPageP
                     WebkitFontSmoothing: "none",
                     fontWeight: 800,
                     fontSize: TAB_FONT_SIZE,
-                    letterSpacing: "0.2em",
+                    letterSpacing: "0.4em",
                     color: isActive ? cat.textColor : "#1a1020",
                   }}
                 >
