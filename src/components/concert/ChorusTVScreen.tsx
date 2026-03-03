@@ -9,6 +9,9 @@ const PIXEL_FONT: React.CSSProperties = {
   WebkitFontSmoothing: "none",
 };
 
+// TODO: 가사지 사진 교체 후 true로 변경
+const SHOW_DAY_PHOTOS = false as boolean;
+
 const DAYS = [
   { label: "DAY 1", videoId: "fphhWhG-INs", img: "/images/concert/sing-along/DAY1.jpg" },
   { label: "DAY 2", videoId: "5-UJytXbaaU", img: "/images/concert/sing-along/DAY2.jpg" },
@@ -386,8 +389,8 @@ export function ChorusTVScreen() {
           })}
         </div>
 
-        {/* ══ 선택된 DAY 사진 ══ */}
-        {selectedDay !== null && (
+        {/* ══ 선택된 DAY 사진 ══ (가사지 수정 후 SHOW_DAY_PHOTOS = true 로 변경) */}
+        {SHOW_DAY_PHOTOS && selectedDay !== null && (
           <div style={{ position: "relative", width: "100%" }}>
             {/* 코너 브래킷 */}
             <div style={{ position: "absolute", top: 6, left: 6, width: 10, height: 10, borderTop: `2px solid ${ACCENT}`, borderLeft: `2px solid ${ACCENT}`, zIndex: 4 }} />

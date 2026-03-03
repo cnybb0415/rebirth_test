@@ -1,5 +1,4 @@
-import { BinderPage, BinderHeading } from "@/components/concert/BinderPage";
-import { HelperForm } from "@/components/concert/HelperForm";
+import { BinderPage, BinderHeading, ComingSoon } from "@/components/concert/BinderPage";
 
 export default function ConcertHelperPage() {
   return (
@@ -10,7 +9,7 @@ export default function ConcertHelperPage() {
         subtitle="HELPER RECRUIT"
         accentColor="#b97fff"
       />
-      <HelperForm />
+      <ComingSoon accentColor="#c084fc" />
     </BinderPage>
   );
 }
