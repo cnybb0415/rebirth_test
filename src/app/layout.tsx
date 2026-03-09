@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { siteConfig } from "@/config/site";
-import { SiteFooterNav } from "@/components/SiteFooterNav";
-import { SiteHeader } from "@/components/SiteHeader";
+import { ShellWrapper } from "@/components/ShellWrapper";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -67,9 +66,7 @@ export default function RootLayout({
               : "min-h-screen bg-transparent"
           }
         >
-          <SiteHeader />
-          <div className="pb-24">{children}</div>
-          <SiteFooterNav />
+          <ShellWrapper>{children}</ShellWrapper>
         </div>
       </body>
     </html>
